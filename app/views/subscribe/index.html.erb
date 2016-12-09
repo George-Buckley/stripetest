@@ -1,0 +1,21 @@
+<%= form_tag subscribe_path(1), :method => :put do %>
+<% @plans.each do |plan| %>
+  <div class="plan">
+  <h1><%= plan[:name] %></h1>
+  <p>£<%= plan[:amount]/100 %></p>
+  <%= form_tag('/new', {method: :post, plan: plan}) do %>
+    <input name="plan_id" type="hidden" value="<%= plan[:id] %>">
+    </input>
+  <% end %>
+  <script
+  src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="<%=
+    Rails.configuration.stripe[:publishable_key] %>"
+      data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+      data-label="Subscribe"
+      data-currency="GBP"
+      data-amount=(plan[:amount])
+      data-locale="auto">
+    </script>
+  </div>
+<% end %>
+<% end %>
